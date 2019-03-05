@@ -1644,7 +1644,6 @@ repeat:
 	if (drain) {
 		lru_add_drain_all_cpuslocked();
 		cond_resched();
-		drain_all_pages(zone);
 	}
 
 	pfn = scan_movable_pages(start_pfn, end_pfn);
