@@ -67,7 +67,10 @@ static inline void __pmd_free_tlb(struct mmu_gather *tlb, pmd_t *pmdp,
 				  unsigned long addr)
 {
 	__flush_tlb_pgtable(tlb->mm, addr);
-	tlb_remove_entry(tlb, virt_to_page(pmdp));
+	struct page *page = virt_to_page(pmdp);
+
+	pgtable_pmd_page_dtor(page);
+	tlb_remove_entry(tlb, page);
 }
 #endif
 

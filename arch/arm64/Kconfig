@@ -862,6 +862,9 @@ config BACKLIGHT_SUPPORT_2047_FEATURE
         help
         Custom for backlight 2047 feature.
 
+config ARCH_ENABLE_SPLIT_PMD_PTLOCK
+	def_bool y if PGTABLE_LEVELS > 2
+
 config SECCOMP
 	bool "Enable seccomp to safely compute untrusted bytecode"
 	---help---
