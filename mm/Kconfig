@@ -808,3 +808,11 @@ config PERCPU_STATS
 	  This feature collects and exposes statistics via debugfs. The
 	  information includes global and per chunk statistics, which can
 	  be used to help understand percpu memory usage.
+
+config LRU_GEN
+	bool "Multi-Gen LRU"
+	depends on MMU
+	# make sure page->flags has enough spare bits
+	depends on 64BIT || !SPARSEMEM || SPARSEMEM_VMEMMAP
+	help
+	  A high performance LRU implementation to overcommit memory.
