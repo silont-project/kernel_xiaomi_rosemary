@@ -1,3 +1,4 @@
+CONFIG_LOCALVERSION="-SiLonT:[Saponaria]"
 CONFIG_CROSS_COMPILE="aarch64-linux-android-"
 # CONFIG_FHANDLE is not set
 CONFIG_IKHEADERS=y
