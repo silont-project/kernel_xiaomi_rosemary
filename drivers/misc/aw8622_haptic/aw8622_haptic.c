@@ -931,7 +931,7 @@ static ssize_t aw8622_load_wavefile_ctrl_store(struct device *dev,
 	pr_info("%s: load_idx_offset=%d\n", __FUNCTION__, val);
 	haptic->load_idx_offset = val;
 
-	schedule_delayed_work(&haptic->load_waveform_work, 0); //delay 10s	
+	queue_delayed_work(system_power_efficient_wq, &haptic->load_waveform_work, 0); //delay 10s	
 	return count;
 }
 
@@ -1130,7 +1130,7 @@ static int aw8622_haptic_probe(struct platform_device *pdev)
 	}
 
 	haptic->load_idx_offset = MID_F0_LOAD_WAVEFORM_OFFSET * NUMS_WAVEFORM_USED;
-	schedule_delayed_work(&haptic->load_waveform_work, 10 * HZ); //delay 10s
+	queue_delayed_work(system_power_efficient_wq, &haptic->load_waveform_work, 10 * HZ); //delay 10s
 
 	pr_info("%s probe success \r\n", __func__);
 	return 0;
