@@ -1126,7 +1126,7 @@ void halRxUSBProcessEventDataComplete(IN struct ADAPTER *prAdapter,
 			set_bit(GLUE_FLAG_RX_BIT, &prGlueInfo->ulFlag);
 			wake_up_interruptible(&prGlueInfo->waitq);
 
-			schedule_delayed_work(&prGlueInfo->rRxPktDeAggWork, MSEC_TO_JIFFIES(SW_RFB_RECHECK_MS));
+			queue_delayed_work(system_power_efficient_wq, &prGlueInfo->rRxPktDeAggWork, MSEC_TO_JIFFIES(SW_RFB_RECHECK_MS));
 			break;
 		}
 

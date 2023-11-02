@@ -384,7 +384,7 @@ static int chg_tcp_notifier_call(struct notifier_block *nb,
 		}
 
 		hdp_state = 0;
-		schedule_delayed_work(&check_wk, msecs_to_jiffies(CHECK_HPD_DELAY));
+		queue_delayed_work(system_power_efficient_wq, &check_wk, msecs_to_jiffies(CHECK_HPD_DELAY));
 	} else if (event == TCP_NOTIFY_AMA_DP_HPD_STATE) {
 		uint8_t irq = noti->ama_dp_hpd_state.irq;
 		uint8_t state = noti->ama_dp_hpd_state.state;

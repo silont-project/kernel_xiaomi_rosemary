@@ -795,7 +795,7 @@ static void cam_temperature_report_wq_routine(
 
 	if (ret != ERROR_NONE)
 		pr_err("Get Sub2 cam temperature error(%d)!\n", ret);
-	schedule_delayed_work(&cam_temperature_wq, HZ);
+	queue_delayed_work(system_power_efficient_wq, &cam_temperature_wq, HZ);
 
 }
 #endif
@@ -2813,7 +2813,7 @@ static int __init imgsensor_init(void)
 	    &cam_temperature_wq,
 	    cam_temperature_report_wq_routine);
 
-	schedule_delayed_work(&cam_temperature_wq, HZ);
+	queue_delayed_work(system_power_efficient_wq, &cam_temperature_wq, HZ);
 #endif
 #ifdef IMGSENSOR_DFS_CTRL_ENABLE
 	imgsensor_dfs_ctrl(DFS_CTRL_ENABLE, NULL);

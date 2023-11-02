@@ -1062,7 +1062,7 @@ void mmdvfs_set_max_camera_hrt_bw(u32 bw)
 	mw_hrt_bw = dram_write_weight(bw);
 	if (mw_hrt_bw < camera_max_bw) {
 		camera_overlap_bw = mw_hrt_bw;
-		schedule_delayed_work(&g_delay_work, 2 * HZ);
+		queue_delayed_work(system_power_efficient_wq, &g_delay_work, 2 * HZ);
 	} else {
 		camera_overlap_bw = 0;
 		set_camera_max_bw(mw_hrt_bw);

@@ -922,7 +922,7 @@ static inline void mt6360_led_enable_dwork(struct led_classdev *led)
 				dev_get_drvdata(led->dev->parent);
 
 	cancel_delayed_work_sync(&rgbled_info->dwork);
-	schedule_delayed_work(&rgbled_info->dwork, msecs_to_jiffies(100));
+	queue_delayed_work(system_power_efficient_wq, &rgbled_info->dwork, msecs_to_jiffies(100));
 }
 
 static void mt6360_led_bright_set(

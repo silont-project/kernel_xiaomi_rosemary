@@ -80,7 +80,7 @@ static void do_low_power_timer_monitor_work(struct work_struct *work)
 	}
 
 	last_trigger_cnt = low_power_timer_total_trigger_cnt;
-	schedule_delayed_work(&low_power_timer_montior_work,
+	queue_delayed_work(system_power_efficient_wq, &low_power_timer_montior_work,
 		msecs_to_jiffies(MONITOR_FREQ));
 }
 
@@ -240,7 +240,7 @@ void lower_power_timer_test_init(void)
 	/* TIMER_DEFERRABLE for not interfering with deep idle */
 	INIT_DEFERRABLE_WORK(&low_power_timer_montior_work,
 		do_low_power_timer_monitor_work);
-	schedule_delayed_work(&low_power_timer_montior_work, 0);
+	queue_delayed_work(system_power_efficient_wq, &low_power_timer_montior_work, 0);
 }
 
 /*  mode 0 : no timer mechanism

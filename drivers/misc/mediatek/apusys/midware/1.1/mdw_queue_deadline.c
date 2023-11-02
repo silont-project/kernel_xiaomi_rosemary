@@ -83,7 +83,7 @@ static void mdw_queue_deadline_tracing(struct work_struct *data)
 		root->need_timer = true;
 		root->trace_boost = false;
 	} else
-		schedule_delayed_work(work,
+		queue_delayed_work(system_power_efficient_wq, work,
 				msecs_to_jiffies(exp_decay_interval));
 	mutex_unlock(&root->lock);
 }
@@ -119,7 +119,7 @@ static int mdw_queue_deadline_task_start(struct mdw_apu_sc *sc, void *q)
 	}
 	/* Enable load tracing timer */
 	if (root->need_timer) {
-		schedule_delayed_work(&root->work, 0);
+		queue_delayed_work(system_power_efficient_wq, &root->work, 0);
 		root->need_timer = false;
 	}
 	trace_deadline_task(tab->name, true, load);

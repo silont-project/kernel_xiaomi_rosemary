@@ -889,7 +889,7 @@ static void ep_prof_work(struct work_struct *data)
 	if (is_print)
 		os_printk(K_INFO, "T%d,R%d\n", tx, rx);
 
-	schedule_delayed_work(&musb->ep_prof_work, msecs_to_jiffies(POLL_INTERVAL * 1000));
+	queue_delayed_work(system_power_efficient_wq, &musb->ep_prof_work, msecs_to_jiffies(POLL_INTERVAL * 1000));
 }
 #endif
 
@@ -1003,7 +1003,7 @@ void musb_start(struct musb *musb)
 
 #ifdef EP_PROFILING
 	if (is_prof != 0)
-		schedule_delayed_work(&musb->ep_prof_work, msecs_to_jiffies(POLL_INTERVAL * 1000));
+		queue_delayed_work(system_power_efficient_wq, &musb->ep_prof_work, msecs_to_jiffies(POLL_INTERVAL * 1000));
 #endif
 
 	if (musb->softconnect) {

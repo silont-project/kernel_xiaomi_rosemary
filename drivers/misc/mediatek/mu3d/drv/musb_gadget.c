@@ -1717,7 +1717,7 @@ static int musb_gadget_pullup(struct usb_gadget *gadget, int is_on)
 			INIT_DELAYED_WORK(&mu3d_clk_off_work, do_mu3d_clk_off_work);
 			mu3d_clk_off_musb = musb;
 			os_printk(K_NOTICE, "queue mu3d_clk_off_work, %d ms delayed\n", delay);
-			schedule_delayed_work(&mu3d_clk_off_work, msecs_to_jiffies(delay));
+			queue_delayed_work(system_power_efficient_wq, &mu3d_clk_off_work, msecs_to_jiffies(delay));
 		}
 	}
 

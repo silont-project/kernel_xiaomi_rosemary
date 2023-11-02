@@ -486,7 +486,7 @@ static int tcpc_device_irq_enable(struct tcpc_device *tcpc)
 		return ret;
 	}
 
-	schedule_delayed_work(
+	queue_delayed_work(system_power_efficient_wq, 
 		&tcpc->event_init_work, msecs_to_jiffies(10*1000));
 
 	pr_info("%s : tcpc irq enable OK!\n", __func__);
@@ -544,7 +544,7 @@ static int bat_nb_call_func(
 
 	if (val == PSY_EVENT_PROP_CHANGED &&
 		strcmp(psy->desc->name, "battery") == 0)
-		schedule_delayed_work(&tcpc->bat_update_work, 0);
+		queue_delayed_work(system_power_efficient_wq, &tcpc->bat_update_work, 0);
 	return NOTIFY_OK;
 }
 #endif /* CONFIG_USB_PD_REV30 */
@@ -609,7 +609,7 @@ int tcpc_schedule_init_work(struct tcpc_device *tcpc)
 
 	pr_info("%s wait %d num\n", __func__, tcpc->desc.notifier_supply_num);
 
-	schedule_delayed_work(
+	queue_delayed_work(system_power_efficient_wq, 
 		&tcpc->init_work, msecs_to_jiffies(30*1000));
 #endif
 	return 0;
@@ -923,7 +923,7 @@ static int __tcpc_class_complete_work(struct device *dev, void *data)
 #if 1
 		tcpc_device_irq_enable(tcpc);
 #else
-		schedule_delayed_work(&tcpc->init_work,
+		queue_delayed_work(system_power_efficient_wq, &tcpc->init_work,
 			msecs_to_jiffies(1000));
 #endif
 

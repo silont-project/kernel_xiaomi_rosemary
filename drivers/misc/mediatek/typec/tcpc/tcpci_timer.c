@@ -1054,7 +1054,7 @@ static enum alarmtimer_restart
 		container_of(alarm, struct tcpc_device, wake_up_timer);
 
 	__pm_wakeup_event(tcpc->wakeup_wake_lock, 1000);
-	schedule_delayed_work(&tcpc->wake_up_work, 0);
+	queue_delayed_work(system_power_efficient_wq, &tcpc->wake_up_work, 0);
 	return ALARMTIMER_NORESTART;
 }
 

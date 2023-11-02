@@ -254,7 +254,7 @@ static void mmdvfs_start_cam_monitor(int scen, int delay_hz)
 
 	/* Set to MAX clk opp here */
 	mmdvfs_set_fine_step(MMDVFS_CAM_MON_SCEN, MMDVFS_FINE_STEP_OPP0);
-	schedule_delayed_work(&g_mmdvfs_cam_work, delay_hz * HZ);
+	queue_delayed_work(system_power_efficient_wq, &g_mmdvfs_cam_work, delay_hz * HZ);
 }
 
 
@@ -1050,7 +1050,7 @@ static DECLARE_DELAYED_WORK(g_mmdvfs_set_default_step_delayed,
 
 void mmdvfs_default_start_delayed_setting(void)
 {
-	schedule_delayed_work(&g_mmdvfs_set_default_step_delayed, 60 * HZ);
+	queue_delayed_work(system_power_efficient_wq, &g_mmdvfs_set_default_step_delayed, 60 * HZ);
 }
 
 void mmdvfs_default_stop_delayed_setting(void)

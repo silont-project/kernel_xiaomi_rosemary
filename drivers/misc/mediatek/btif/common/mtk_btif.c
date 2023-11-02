@@ -1135,7 +1135,7 @@ irqreturn_t btif_rx_dma_irq_handler(int irq, void *data)
 #ifdef BTIF_FLAG_SET_ENABLE_ALL_FUNC
 #if BTIF_DBG_SUPPORT
 	if (g_enable_btif_rxd_test)
-		schedule_delayed_work(&p_btif->btif_rx_test_work,
+		queue_delayed_work(system_power_efficient_wq, &p_btif->btif_rx_test_work,
 			msecs_to_jiffies(p_btif->delay_sched_time));
 	else
 #endif
@@ -3731,7 +3731,7 @@ static int btif_block_rx_dma_irq_test(void)
 
 	BTIF_INFO_FUNC("rx dma irq block test: disable IRQ\n");
 	_btif_irq_ctrl(p_rx_dma_info->p_irq, false);
-	return schedule_delayed_work(&p_btif->btif_rx_test_work,
+	return queue_delayed_work(system_power_efficient_wq, &p_btif->btif_rx_test_work,
 				msecs_to_jiffies(p_btif->delay_sched_time));
 }
 #endif

@@ -709,7 +709,7 @@ static int mt6360_chgdet_post_process(struct mt6360_pmu_chg_info *mpci)
 		mpci->chg_type = CHECK_HV;
 		dev_info(mpci->dev, "%s: start QC2 retry.\n", __func__);
 		if (!delayed_work_pending(&mpci->get_hvdcp_work))
-			schedule_delayed_work(&mpci->get_hvdcp_work,
+			queue_delayed_work(system_power_efficient_wq, &mpci->get_hvdcp_work,
 					msecs_to_jiffies(HVDCP_DPDM_DELAY_1S));
 		break;
 	}

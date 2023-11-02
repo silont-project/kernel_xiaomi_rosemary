@@ -154,7 +154,7 @@ static void adsp_logger_init_handler(int id, void *data, unsigned int len)
 	}
 
 	/* send work to initialize logger*/
-	schedule_delayed_work(&pdata->log_ctrl->work, delay);
+	queue_delayed_work(system_power_efficient_wq, &pdata->log_ctrl->work, delay);
 }
 
 /*

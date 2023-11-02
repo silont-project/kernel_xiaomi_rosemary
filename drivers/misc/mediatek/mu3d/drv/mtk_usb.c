@@ -400,7 +400,7 @@ static void do_mu3d_test_connect_work(struct work_struct *work)
 	ktime_us = ktime_to_us(ktime);
 	delay_time_ms = TEST_CONNECT_BASE_MS + (ktime_us % TEST_CONNECT_BIAS_MS);
 	os_printk(K_INFO, "%s, work after %d ms\n", __func__, delay_time_ms);
-	schedule_delayed_work(&mu3d_test_connect_work, msecs_to_jiffies(delay_time_ms));
+	queue_delayed_work(system_power_efficient_wq, &mu3d_test_connect_work, msecs_to_jiffies(delay_time_ms));
 
 	test_connected = !test_connected;
 }
@@ -419,7 +419,7 @@ void mt_usb_connect_test(int start)
 		__pm_stay_awake(&device_test_wakelock);
 		mu3d_test_connect = 1;
 		INIT_DELAYED_WORK(&mu3d_test_connect_work, do_mu3d_test_connect_work);
-		schedule_delayed_work(&mu3d_test_connect_work, 0);
+		queue_delayed_work(system_power_efficient_wq, &mu3d_test_connect_work, 0);
 	} else {
 		mu3d_test_connect = 0;
 		__pm_relax(&device_test_wakelock);

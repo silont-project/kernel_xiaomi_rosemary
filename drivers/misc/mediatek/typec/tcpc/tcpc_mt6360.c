@@ -733,7 +733,7 @@ static inline void mt6360_poll_ctrl(struct mt6360_chip *chip)
 		cpu_idle_poll_ctrl(true);
 	}
 
-	schedule_delayed_work(&chip->poll_work, msecs_to_jiffies(40));
+	queue_delayed_work(system_power_efficient_wq, &chip->poll_work, msecs_to_jiffies(40));
 }
 
 static void mt6360_irq_work_handler(struct kthread_work *work)
@@ -1330,7 +1330,7 @@ static int mt6360_set_cc(struct tcpc_device *tcpc, int pull)
 		ret = mt6360_command(tcpc, TCPM_CMD_LOOK_CONNECTION);
 #ifdef CONFIG_WD_SBU_POLLING
 #ifdef CONFIG_WD_POLLING_ONLY
-		schedule_delayed_work(&chip->usbid_poll_work,
+		queue_delayed_work(system_power_efficient_wq, &chip->usbid_poll_work,
 					msecs_to_jiffies(500));
 #else
 		mt6360_enable_usbid_polling(chip, true);

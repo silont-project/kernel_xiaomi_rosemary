@@ -934,6 +934,6 @@ void cm_mgr_update_dram_by_cpu_opp(int cpu_opp)
 
 	cm_mgr_cpu_to_dram_opp = dram_opp;
 
-	ret = schedule_delayed_work(&cm_mgr_work, 1);
+	ret = queue_delayed_work(system_power_efficient_wq, &cm_mgr_work, 1);
 }
 #endif /* USE_CPU_TO_DRAM_MAP */

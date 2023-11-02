@@ -308,7 +308,7 @@ static inline void mtu3d_u3_ltssm_intr_handler(struct musb *musb, u32 dwLtssmVal
 		 */
 		os_printk(K_INFO, "LTSSM: RXDET_SUCCESS_INTR\n");
 		sts_ltssm = RXDET_SUCCESS_INTR;
-		schedule_delayed_work(&musb->check_ltssm_work, msecs_to_jiffies(1000));
+		queue_delayed_work(system_power_efficient_wq, &musb->check_ltssm_work, msecs_to_jiffies(1000));
 	}
 }
 
@@ -434,7 +434,7 @@ static inline void mtu3d_link_intr_handler(struct musb *musb, u32 dwLinkIntValue
 			if (timespec_compare(&ss_timestamp, &tmp) > 0) {
 				os_printk(K_INFO, "queue reconnect work\n");
 
-				schedule_delayed_work(&musb->reconnect_work, 0);
+				queue_delayed_work(system_power_efficient_wq, &musb->reconnect_work, 0);
 			}
 		}
 		speed_last = speed;

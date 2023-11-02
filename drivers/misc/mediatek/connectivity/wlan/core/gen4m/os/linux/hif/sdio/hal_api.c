@@ -2370,7 +2370,7 @@ void halDeAggRxPktWorker(struct work_struct *work)
 			/* Reschedule this work */
 			if (test_bit(GLUE_FLAG_HALT_BIT, &prGlueInfo->ulFlag)
 				== 0)
-				schedule_delayed_work(&prAdapter->prGlueInfo->rRxPktDeAggWork, 0);
+				queue_delayed_work(system_power_efficient_wq, &prAdapter->prGlueInfo->rRxPktDeAggWork, 0);
 
 			return;
 		}
@@ -2484,7 +2484,7 @@ void halDeAggRxPkt(struct ADAPTER *prAdapter, struct SDIO_RX_COALESCING_BUF *prR
 	QUEUE_INSERT_TAIL(&prHifInfo->rRxDeAggQueue, (struct QUE_ENTRY *)prRxBuf);
 	mutex_unlock(&prHifInfo->rRxDeAggQueMutex);
 
-	schedule_delayed_work(&prAdapter->prGlueInfo->rRxPktDeAggWork, 0);
+	queue_delayed_work(system_power_efficient_wq, &prAdapter->prGlueInfo->rRxPktDeAggWork, 0);
 }
 
 void halRxTasklet(unsigned long data)

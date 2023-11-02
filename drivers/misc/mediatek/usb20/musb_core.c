@@ -965,7 +965,7 @@ static irqreturn_t musb_stage0_irq(struct musb *musb, u8 int_usb, u8 devctl)
 			if (is_switch_charger()) {
 				DBG(0,
 					"too many VBUS error, restart power on sequence for switching charger!\n");
-					schedule_delayed_work(&musb->id_pin_work
+					queue_delayed_work(system_power_efficient_wq, &musb->id_pin_work
 						, 400 * HZ / 1000);
 			} else {
 				musb_platform_set_vbus(musb, 0);
@@ -1053,7 +1053,7 @@ static irqreturn_t musb_stage0_irq(struct musb *musb, u8 int_usb, u8 devctl)
 		if ((apple) && (int_usb & MUSB_INTR_SUSPEND)) {
 			apple = false;
 			DBG(0, "musb stage0 irq musb_id_pin_work_host\n");
-			schedule_delayed_work(&mtk_musb->carplay_work
+			queue_delayed_work(system_power_efficient_wq, &mtk_musb->carplay_work
 							, 1000 * HZ / 1000);
 		}
 #endif

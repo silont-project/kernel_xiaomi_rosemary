@@ -116,7 +116,7 @@ static void setupfw_work_handler(struct work_struct *work)
 		pr_debug("%s: sspm_ipi success! (%d)\n", __func__, ret);
 	} else {
 		pr_debug("%s: sspm_ipi fail (%d)\n", __func__, ret);
-		schedule_delayed_work(&g_setupfw_work, 5 * HZ);
+		queue_delayed_work(system_power_efficient_wq, &g_setupfw_work, 5 * HZ);
 	}
 }
 
@@ -127,7 +127,7 @@ static void _MTKGPUQoS_setupFW(phys_addr_t phyaddr, size_t size)
 	setupfw_data.phyaddr = phyaddr;
 	setupfw_data.size = size;
 
-	schedule_delayed_work(&g_setupfw_work, 1);
+	queue_delayed_work(system_power_efficient_wq, &g_setupfw_work, 1);
 }
 
 static void bw_v1_gpu_power_change_notify(int power_on)
