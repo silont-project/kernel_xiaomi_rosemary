@@ -2393,10 +2393,10 @@ static int mtk_charger_plug_in(struct charger_manager *info,
 
 	charger_dev_plug_in(info->chg1_dev);
 	check_batt_authentic();
-	schedule_delayed_work(&info->charger_type_recheck_work,
+	queue_delayed_work(system_power_efficient_wq, &info->charger_type_recheck_work,
 					msecs_to_jiffies(CHARGER_RECHECK_DELAY_MS));
 
-	schedule_delayed_work(&info->dcp_confirm_work,
+	queue_delayed_work(system_power_efficient_wq, &info->dcp_confirm_work,
 					msecs_to_jiffies(CHARGER_CONFIRM_DCP_DELAY_MS));
 	if (suppld_maxim)
 		schedule_work(&info->batt_verify_update_work);
@@ -4692,7 +4692,7 @@ void notify_adapter_event(enum adapter_type type, enum adapter_event evt,
 			mutex_unlock(&pinfo->charger_pd_lock);
 			_wake_up_charger(pinfo);
 			/* reset PE40 */
-			schedule_delayed_work(&pinfo->pd_hard_reset_work, msecs_to_jiffies(PD_HARD_RESET_MS));
+			queue_delayed_work(system_power_efficient_wq, &pinfo->pd_hard_reset_work, msecs_to_jiffies(PD_HARD_RESET_MS));
 			break;
 
 		case MTK_PD_CONNECT_PE_READY_SNK:
@@ -5063,7 +5063,7 @@ static void mtk_charger_type_recheck_work(struct work_struct *work)
 
 check_next:
 	info->check_count++;
-	schedule_delayed_work(&info->charger_type_recheck_work,
+	queue_delayed_work(system_power_efficient_wq, &info->charger_type_recheck_work,
 				msecs_to_jiffies(recheck_time));
 }
 
