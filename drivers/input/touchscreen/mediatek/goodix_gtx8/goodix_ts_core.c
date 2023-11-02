@@ -2037,7 +2037,7 @@ static void goodix_ts_esd_work(struct work_struct *work)
 	}
 
 	if (atomic_read(&ts_esd->esd_on))
-		schedule_delayed_work(&ts_esd->esd_work, 2 * HZ);
+		queue_delayed_work(system_power_efficient_wq, &ts_esd->esd_work, 2 * HZ);
 }
 
 /**
@@ -2051,7 +2051,7 @@ static void goodix_ts_esd_on(struct goodix_ts_core *core)
 		return;
 
 	atomic_set(&ts_esd->esd_on, 1);
-	if (!schedule_delayed_work(&ts_esd->esd_work, 2 * HZ)) {
+	if (!queue_delayed_work(system_power_efficient_wq, &ts_esd->esd_work, 2 * HZ)) {
 		ts_info("esd work already in workqueue");
 	}
 	ts_info("esd on");
