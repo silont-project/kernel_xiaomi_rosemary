@@ -20,17 +20,6 @@
  *
  */
 
-/*
- * Increase multiplier to increase timeout limit for:
- *
- *  - JS_HARD_STOP_TICKS_SS
- *  - JS_SOFT_JOB_TIMEOUT
- *  - JS_RESET_TICKS_SS
- *
- * Default is 1
- */
-#define TICK_MULTIPLIER (1)
-
 /**
  * @file mali_kbase_config_defaults.h
  *
@@ -99,38 +88,29 @@ enum {
 };
 
 /**
- * Default period for DVFS sampling (can be overridden by platform header)
+ * Default period for DVFS sampling
  */
-#ifndef DEFAULT_PM_DVFS_PERIOD
 #define DEFAULT_PM_DVFS_PERIOD 100 /* 100ms */
-#endif
 
 /**
  * Power Management poweroff tick granuality. This is in nanoseconds to
- * allow HR timer support (can be overridden by platform header).
+ * allow HR timer support.
  *
  * On each scheduling tick, the power manager core may decide to:
  * -# Power off one or more shader cores
  * -# Power off the entire GPU
  */
-#ifndef DEFAULT_PM_GPU_POWEROFF_TICK_NS
 #define DEFAULT_PM_GPU_POWEROFF_TICK_NS (400000) /* 400us */
-#endif
 
 /**
  * Power Manager number of ticks before shader cores are powered off
- * (can be overridden by platform header).
  */
-#ifndef DEFAULT_PM_POWEROFF_TICK_SHADER
 #define DEFAULT_PM_POWEROFF_TICK_SHADER (2) /* 400-800us */
-#endif
 
 /**
- * Default scheduling tick granuality (can be overridden by platform header)
+ * Default scheduling tick granuality
  */
-#ifndef DEFAULT_JS_SCHEDULING_PERIOD_NS
 #define DEFAULT_JS_SCHEDULING_PERIOD_NS    (100000000u) /* 100ms */
-#endif
 
 /**
  * Default minimum number of scheduling ticks before jobs are soft-stopped.
@@ -148,7 +128,7 @@ enum {
 /**
  * Default minimum number of scheduling ticks before jobs are hard-stopped
  */
-#define DEFAULT_JS_HARD_STOP_TICKS_SS    (50 * TICK_MULTIPLIER) /* Default: 5s */
+#define DEFAULT_JS_HARD_STOP_TICKS_SS    (50) /* 5s */
 
 /**
  * Default minimum number of scheduling ticks before CL jobs are hard-stopped.
@@ -165,13 +145,13 @@ enum {
  * Default timeout for some software jobs, after which the software event wait
  * jobs will be cancelled.
  */
-#define DEFAULT_JS_SOFT_JOB_TIMEOUT (3000 * TICK_MULTIPLIER) /* Default: 3s */
+#define DEFAULT_JS_SOFT_JOB_TIMEOUT (3000) /* 3s */
 
 /**
  * Default minimum number of scheduling ticks before the GPU is reset to clear a
  * "stuck" job
  */
-#define DEFAULT_JS_RESET_TICKS_SS           (55 * TICK_MULTIPLIER) /* Default: 5.5s */
+#define DEFAULT_JS_RESET_TICKS_SS           (55) /* 5.5s */
 
 /**
  * Default minimum number of scheduling ticks before the GPU is reset to clear a
