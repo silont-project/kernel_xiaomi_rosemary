@@ -80,9 +80,6 @@ static DECLARE_RWSEM(ke_rw_ops_sem);
 #define MaxMapsSize 65536
 #define MAX_PROCTITLE_AUDIT_LEN 128
 
-static int ee_num;
-static int kernelapi_num;
-
 /******************************************************************************
  * DEBUG UTILITIES
  *****************************************************************************/
@@ -169,11 +166,6 @@ void msg_show(const char *prefix, struct AE_Msg *msg)
 		msg->len);
 }
 
-int aee_get_mode(void)
-{
-	return aee_mode;
-}
-EXPORT_SYMBOL(aee_get_mode);
 
 /******************************************************************************
  * CONSTANT DEFINITIONS
@@ -2576,12 +2568,8 @@ static void kernel_reportAPI(const enum AE_DEFECT_ATTR attr, const int db_opt,
 
 	if ((aee_mode >= AEE_MODE_CUSTOMER_USER || (aee_mode ==
 		AEE_MODE_CUSTOMER_ENG && attr == AE_DEFECT_WARNING))
-		&& (attr != AE_DEFECT_FATAL)) {
-		if (!aed_get_status() && (kernelapi_num < 5))
-			kernelapi_num++;
-		else
-			return;
-	}
+		&& (attr != AE_DEFECT_FATAL))
+		return;
 	oops = aee_oops_create(attr, AE_KERNEL_PROBLEM_REPORT, module);
 	if (oops != NULL) {
 		do_gettimeofday(&tv);
@@ -2654,12 +2642,8 @@ static void external_exception(const char *assert_type, const int *log,
 	int n = 0;
 
 	if ((aee_mode >= AEE_MODE_CUSTOMER_USER) &&
-		(aee_force_exp == AEE_FORCE_EXP_NOT_SET)) {
-		if (!aed_get_status() && (ee_num < 5))
-			ee_num++;
-		else
-			return;
-	}
+		(aee_force_exp == AEE_FORCE_EXP_NOT_SET))
+		return;
 	eerec = kzalloc(sizeof(struct aed_eerec), GFP_ATOMIC);
 	if (eerec == NULL) {
 		return;

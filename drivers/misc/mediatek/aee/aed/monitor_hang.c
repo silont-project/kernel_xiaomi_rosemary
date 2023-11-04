@@ -1853,7 +1853,7 @@ static int hang_detect_thread(void *arg)
 				if (Hang_Detect_first == true) {
 					pr_notice(
 						"[Hang_Detect] aee mode is %d, we should triger KE...\n",
-						aee_get_mode());
+						aee_mode);
 #ifdef CONFIG_MTK_RAM_CONSOLE
 		if ((!watchdog_thread_exist & system_server_exist)
 			&& reboot_flag == false)
