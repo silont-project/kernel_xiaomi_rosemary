@@ -38,6 +38,7 @@ CONFIG_PREEMPT=y
 CONFIG_HZ_300=y
 # CONFIG_BOUNCE is not set
 CONFIG_ZSMALLOC=y
+CONFIG_LRU_GEN=y
 CONFIG_RANDOMIZE_BASE=y
 CONFIG_CMDLINE="console=tty0 console=ttyMT3,921600n1 root=/dev/ram vmalloc=496M slub_max_order=0 slub_debug=0 "
 # CONFIG_EFI is not set
